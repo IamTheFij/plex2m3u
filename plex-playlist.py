@@ -11,13 +11,20 @@ PLEX_LIBRARY_NAME = os.getenv("PLEX_LIBRARY", "Music")
 PLEX_PLAYLIST_EXCLUDE = os.getenv("PLEX_PLAYLIST_EXCLUDE", "All Music")
 # Directory to save M3U files
 OUTPUT_DIR = os.getenv("OUTPUT_DIR", "./")
+# Path replacement
+PATH_REPLACE = os.getenv("PATH_REPLACE")
 
 
-def translate_path(origin_path: str) -> str:
-    if origin_path.startswith("/data/"):
-        origin_path = "/share/Media" + origin_path[5:]
+def translate_path(target_path: str) -> str:
+    # Replace path prefixes
+    if not PATH_REPLACE:
+        return target_path
 
-    return origin_path
+    for replace in PATH_REPLACE.split(","):
+        from_path, _, to_path = replace.partition("=")
+        target_path = target_path.replace(from_path, to_path)
+
+    return target_path
 
 
 def create_m3u_playlist(playlist, output_dir):
@@ -42,11 +49,8 @@ def main():
     # Connect to Plex server
     plex = PlexServer(PLEX_URL, PLEX_TOKEN)
 
-    # Specify the library name to fetch playlists from
-    library_name = PLEX_LIBRARY_NAME
-
     # Fetch the library
-    music_library = plex.library.section(library_name)
+    music_library = plex.library.section(PLEX_LIBRARY_NAME)
 
     # Fetch all playlists in the library
     playlists = music_library.playlists()
