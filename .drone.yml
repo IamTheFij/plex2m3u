@@ -1,0 +1,23 @@
+---
+kind: pipeline
+name: publish
+
+trigger:
+  event:
+    - tag
+    - push
+  refs:
+    - refs/tags/v*
+    - refs/heads/main
+
+steps:
+  - name: Build and publish
+    image: woodpeckerci/plugin-docker-buildx:5
+    settings:
+      platforms: linux/amd64,linux/arm64
+      repo: iamthefij/plex2m3u
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
