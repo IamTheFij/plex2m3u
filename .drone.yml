@@ -12,7 +12,8 @@ trigger:
 
 steps:
   - name: Build and publish
-    image: woodpeckerci/plugin-docker-buildx:5
+    image: thegeeklab/drone-docker-buildx
+    # image: woodpeckerci/plugin-docker-buildx:5
     settings:
       platforms: linux/amd64,linux/arm64
       repo: iamthefij/plex2m3u
