@@ -3,7 +3,7 @@ import os
 from plexapi.server import PlexServer
 
 # Plex server connection details
-PLEX_URL = os.getenv("PLEX_URL", "http://192.168.2.10:32400")
+PLEX_URL = os.getenv("PLEX_URL", "http://localhost:32400")
 PLEX_TOKEN = os.getenv("PLEX_TOKEN")
 # Name of Music library to get playlists from
 PLEX_LIBRARY_NAME = os.getenv("PLEX_LIBRARY", "Music")
