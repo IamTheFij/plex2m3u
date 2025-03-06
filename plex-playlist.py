@@ -21,7 +21,7 @@ def translate_path(target_path: str) -> str:
         return target_path
 
     for replace in PATH_REPLACE.split(","):
-        from_path, _, to_path = replace.partition("=")
+        from_path, _, to_path = replace.partition(":")
         target_path = target_path.replace(from_path, to_path)
 
     return target_path
